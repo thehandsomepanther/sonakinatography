@@ -50,10 +50,17 @@ var currentStep = 0;
 var space = new CanvasSpace('#space');
 var form = new Form(space);
 
-var y = space.size.y * .1;
-var height = space.size.y * .6;
+var x, y, height;
 
-var x = space.size.x/2 - height/2;
+if (space.size.y > space.size.x) {
+    x = space.size.x * .2;
+    height = space.size.x * .6;
+    y = space.size.y/2 - height/2;
+} else {
+    y = space.size.y * .2;
+    height = space.size.y * .6;
+    x = space.size.x/2 - height/2;
+}
 
 var grid = new Grid(x, y).to(x + height, y + height).init(8, 8, "stretch", "stretch");
 
