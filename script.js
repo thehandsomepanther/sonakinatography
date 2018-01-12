@@ -65,7 +65,7 @@ if (space.size.y > space.size.x) {
 var grid = new Grid(x, y).to(x + height, y + height).init(8, 8, "stretch", "stretch");
 
 grid.generate(function(size, position, row, column, type, isOccupied) {
-    form.stroke(false).fill(false).rect(new Rectangle( position ).resizeTo( size ));
+    form.stroke(false).fill(false).rect(new Rectangle(position).resizeTo(size));
 }.bind(grid));
 
 function cellColor(x, y) {
@@ -95,8 +95,39 @@ function render(step) {
 
 space.add({
     animate: function(time, fs, context) {
-        render(Math.floor((time/1000) % STEPS.length));
+        render(activeStep);
     }
 });
+
+var activeStep = 0;
+setInterval(function() {
+    setActive(activeStep);
+    activeStep = (activeStep + 1) % STEPS.length;
+}, 500);
+
+var $steps = document.querySelector('.steps');
+for (var i = 0; i < STEPS.length; i++) {
+    var $step = document.createElement('div');
+    $step.className = 'step step-' + i;
+    $step.setAttribute('data-step', i);
+    $steps.appendChild($step);
+}
+
+function setActive(i) {
+    var $lastActive = document.querySelector('.step.active');
+    if ($lastActive) {
+        $lastActive.className = $lastActive.className.replace('active', '').trim();
+    }
+    var $currentActive = document.querySelector('.step-' + i);
+    $currentActive.className += ' active';
+}
+
+var $steps = document.querySelectorAll('.step');
+for (var i = 0; i < $steps.length; i++) {
+    $steps[i].addEventListener('click', function(e) {
+        activeStep = e.target.getAttribute('data-step');
+        setActive(activeStep);
+    });
+}
 
 space.play();

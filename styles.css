@@ -3,7 +3,36 @@ body {
     padding: 0;
 }
 
+.container {
+    position: relative;
+}
+
 #space {
     height: 100vh;
     width: 100vw;
+    position: absolute;
+}
+
+.steps {
+    margin: 0 auto;
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+.step {
+    flex-grow: 1;
+    height: 40px;
+    border-left: 2px solid red;
+    transform: translateY(-20px);
+    display: inline-block;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+}
+
+.step:hover,
+.step.active {
+    transform: translateY(0px);
 }
